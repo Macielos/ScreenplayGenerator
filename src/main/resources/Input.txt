@@ -1,0 +1,6 @@
+Tassadar: The Overmind have been weakened, but we have sustained severe damage ourselves.
+Tassadar: [choices]I will steer the Gantrithor on the collision course with the Overmind!|Time to get out of here!
+Tassadar: I will steer the Gantrithor on the collision course with the Overmind!
+Overmind: Oh fuck!
+Duke: That's what I call tactics, boy!
+Tassadar: Time to get out of here!
