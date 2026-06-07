@@ -13,21 +13,23 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class ScreenplayGenerator {
+public class ScreenplayGeneratorV1 {
 
-    private static final String INPUT = "src\\main\\resources\\Input.txt";
+    private static final String DIRECTORY = "files\\generator";
+    private static final String INPUT = DIRECTORY + "\\Input.txt";
+    private static final String OUTPUT_DIRECTORY = DIRECTORY + "\\output";
 
     private static final String TEMPLATE = """
-            ScreenplayFactory:saveBuilder("intro", function()
+            ScreenplayFactory:saveBuilderForMessageChain("TODO", function()
             [ACTORS]
-            return ScreenplaySystem.chain:buildFromObject({
+            return {
             [CONTENT]
-             })
+             }
             end)
             """;
 
     private static final String THREE_DOTS = "…";
-
+    private static final int INITIAL_INDEX = 1;
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
     private static final String CHOICES_PREFIX = "[choices]";
 
@@ -37,7 +39,7 @@ public class ScreenplayGenerator {
                 .stream()
                 .filter(StringUtils::isNotBlank)
                 .filter(s -> s.contains(":"))
-                .map(ScreenplayGenerator::processLine)
+                .map(ScreenplayGeneratorV1::processLine)
                 .toList();
         Set<String> actors = messages.stream()
                 .map(Message::actor)
@@ -45,15 +47,15 @@ public class ScreenplayGenerator {
 
         String screenplayActorsDeclaration = actors
                 .stream()
-                .map(ScreenplayGenerator::createActorsDeclaration)
+                .map(ScreenplayGeneratorV1::createActorsDeclaration)
                 .collect(Collectors.joining());
         String screenplayMessageList = IntStream.range(0, messages.size())
-                .mapToObj(index -> createMessage(index + 1, messages.get(index)))
+                .mapToObj(index -> createMessage(index + INITIAL_INDEX, messages.get(index)))
                 .collect(Collectors.joining());
 
         String screenplay = TEMPLATE.replace("[ACTORS]", screenplayActorsDeclaration)
                 .replace("[CONTENT]", screenplayMessageList);
-        String outputFilename = "src\\main\\resources\\output\\screenplay_" + DATE_FORMATTER.format(LocalDateTime.now().withSecond(0).withNano(0)) + ".lua";
+        String outputFilename = OUTPUT_DIRECTORY + "\\screenplay_" + DATE_FORMATTER.format(LocalDateTime.now().withSecond(0).withNano(0)) + ".lua";
         Files.writeString(Paths.get(outputFilename), screenplay);
     }
 
@@ -93,8 +95,8 @@ public class ScreenplayGenerator {
                                 text = "%s",
                                 onChoice = function()
                                     ScreenplaySystem:currentItem().choices[%d].visible = false
-                                    ScreenplaySystem:goTo(TODO)
-                                end
+                                end,
+                                onChoiceGoTo = TODO
                             },
                             """,
                     index, choice, index);
