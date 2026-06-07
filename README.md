@@ -26,11 +26,11 @@ linked above. Also remember to change your screenplay name as they need to be un
 ScreenplayMessages file is a QoL feature for translators, so they don't have to edit each screenplay manually with each new version
 
 ScreenplaySounds automates adding voice over to your screenplays - no need to manually create sound variables in sound editor, just import sound files under a proper path and the tool will link sound files to your screenplay messages.
-Sound files should be imported as: war3mapImported\<screenplay name><msg index> or war3mapImported\<screenplay name>_<choice index>. Indexes must always be 3 digits:
+Sound files should be imported as: war3mapImported\<screenplay name><msg index>.mp3 or war3mapImported\<screenplay name>_<choice index>.mp3. Indexes must always be 3 digits:
 e.g.
-war3mapImported\intro001 - "intro" screenplay, message 1
-war3mapImported\intro002 - "intro" screenplay, message 2
-war3mapImported\intro004_001 - "intro" screenplay, message 4, choice 1
+war3mapImported\intro001.mp3 - "intro" screenplay, message 1
+war3mapImported\intro002.mp3 - "intro" screenplay, message 2
+war3mapImported\intro004_001.mp3 - "intro" screenplay, message 4, choice 1
 
 If you want to use different in-game path (e.g. war3campImported), rename the input folder or if you want some custom nested path, change INGAME_SOUND_FILES_PATH constant in a class ScreenplayMessageTextCollector. 
 
