@@ -16,6 +16,8 @@ public class ScreenplayMessageTextCollector {
     private static final String INPUT_DIR = "files\\collector\\input";
     private static final String OUTPUT_DIR = "files\\collector\\output";
 
+    private static final String INGAME_SOUND_FILES_PATH = "Exodus\\\\Voices\\\\Missions";
+
     private static final Pattern SCREENPLAY_NAME_REGEX = Pattern.compile("^ScreenplayFactory:saveBuilder\\(\"(\\w+)\".*$");
     private static final Pattern SCREENPLAY_NAME2_REGEX = Pattern.compile("^ScreenplayFactory:saveBuilderForMessageChain\\(\"(\\w+)\".*$");
     private static final Pattern ITEM_NO_REGEX = Pattern.compile("^ {8}\\[(\\d+)]\\s*=\\s*\\{");
@@ -54,7 +56,7 @@ public class ScreenplayMessageTextCollector {
                 .filter(e -> !CHOICE_MESSAGE_KEY_PATTERN.matcher(e.getKey()).matches())
                 .filter(e -> StringUtils.isNotEmpty(e.getValue()) && !"...".equals(e.getValue()))
                 .map(Map.Entry::getKey)
-                .map(key -> String.format("    %s = SoundUtils.createVoiceSound('Exodus\\\\Voices\\\\Missions\\\\%s\\\\%s'),", key, name, key))
+                .map(key -> String.format("    %s = SoundUtils.createVoiceSound('%s\\\\%s\\\\%s'),", key, INGAME_SOUND_FILES_PATH, name, key))
                 .collect(Collectors.toList());
         lines.add(0, "ScreenplaySounds = {");
         lines.add("}");
